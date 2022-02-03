@@ -2,12 +2,15 @@
 const fs = require('fs');
 // another module built into node.js that works with file and directory paths
 const path = require('path');
-
 const express = require('express');
-const PORT = process.env.PORT || 3001;
-const app = express();
 const { animals } = require('./data/animals');
 
+const PORT = process.env.PORT || 3001;
+const app = express();
+
+// Express.js middleware that instructs the server to make certain files readily available
+// provides a file path to the 'public' folder of our application and tells the server to make the files static resources
+app.use(express.static('public'));
 // parse incoming string or array data
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
@@ -119,6 +122,23 @@ app.post('/api/animals', (req, res) => {
         const animal = createNewAnimal(req.body, animals);
         res.json(animal);
     }
+});
+
+// tells server where to find the file it should read and return to the client
+// connecting the main page html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+});
+// connecting the view animals html
+app.get('/animals', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+// connecting the view zookeepers html
+app.get('/zookeepers', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 app.listen(PORT, () => {
