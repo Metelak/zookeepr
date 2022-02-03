@@ -1,14 +1,9 @@
-// import and use fs libary to write data to animals.json
-const fs = require('fs');
-// another module built into node.js that works with file and directory paths
-const path = require('path');
 const express = require('express');
-const { animals } = require('./data/animals.json');
-const apiRoutes = require('./routes/apiRoutes');
-const htmlRoutes = require('./routes/htmlRoutes');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
+const apiRoutes = require('./routes/apiRoutes');
+const htmlRoutes = require('./routes/htmlRoutes');
 
 // Express.js middleware that instructs the server to make certain files readily available
 // provides a file path to the 'public' folder of our application and tells the server to make the files static resources
